@@ -116,6 +116,20 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           });
         }
         const controller = new AbortController();
+
+        fetch('/api/log', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            prompt:
+              updatedConversation.messages[
+                updatedConversation.messages.length - 1
+              ].content,
+          }),
+        });
+
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: {

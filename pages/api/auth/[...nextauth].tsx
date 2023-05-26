@@ -1,4 +1,5 @@
 import nextAuth from 'next-auth';
+import type { NextAuthOptions } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
 import keycloakProvider from 'next-auth/providers/keycloak';
 
@@ -48,7 +49,7 @@ const refreshAccessToken = async (token: JWT): Promise<JWT> => {
   }
 };
 
-export default nextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     keycloakProvider({
       clientId: R.defaultTo('', process.env.KEYCLOAK_ID),
@@ -90,4 +91,6 @@ export default nextAuth({
       return newSession;
     },
   },
-});
+};
+
+export default nextAuth(authOptions);
