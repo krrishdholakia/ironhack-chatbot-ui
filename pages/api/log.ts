@@ -25,6 +25,7 @@ const handler = async (
       method: 'POST',
       headers: {
         'X-API-Key': 'kwr4ZGD.ktq7ztn3nyr',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         user_name: session.user.name,
