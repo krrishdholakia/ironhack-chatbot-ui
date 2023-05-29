@@ -1,4 +1,8 @@
-import { IconFileExport, IconSettings } from '@tabler/icons-react';
+import {
+  IconBulbFilled,
+  IconFileExport,
+  IconSettings,
+} from '@tabler/icons-react';
 import { useContext, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
@@ -38,6 +42,18 @@ export const ChatbarSettings = () => {
 
   return (
     <div className="flex flex-col items-center space-y-1 border-t border-white/20 pt-1 text-sm">
+      <SidebarButton
+        text={t('Getting Started')}
+        icon={<IconBulbFilled size={18} />}
+        onClick={() =>
+          window.open(
+            'https://ironhack.notion.site/Learn-to-code-not-No-AI-cheat-code-cde10ca3be62429f9fcc152c07197724',
+            '_blank',
+            'noreferrer',
+          )
+        }
+      />
+
       {conversations.length > 0 ? (
         <ClearConversations onClearConversations={handleClearConversations} />
       ) : null}
