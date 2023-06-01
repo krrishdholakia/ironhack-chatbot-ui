@@ -12,6 +12,9 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@bugsnag/js": "^7.20.2",
+    "@bugsnag/plugin-aws-lambda": "^7.19.0",
+    "@bugsnag/plugin-react": "^7.19.0",
     "@dqbd/tiktoken": "^1.0.2",
     "@tabler/icons-react": "^2.9.0",
     "eventsource-parser": "^0.1.0",

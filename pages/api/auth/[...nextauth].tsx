@@ -3,8 +3,12 @@ import type { NextAuthOptions } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
 import keycloakProvider from 'next-auth/providers/keycloak';
 
+import { start } from '@/lib/bugsnag';
+import Bugsnag from '@bugsnag/js';
 import axios from 'axios';
 import * as R from 'ramda';
+
+start();
 
 type RefreshedToken = {
   access_token: string;
@@ -41,7 +45,11 @@ const refreshAccessToken = async (token: JWT): Promise<JWT> => {
       refreshTokenExpired:
         Date.now() + (response.data.refresh_expires_in - 15) * 1000,
     };
-  } catch {
+  } catch (error: any) {
+    Bugsnag.notify(error, (bugsnagEvent) => {
+      bugsnagEvent.context = 'refresh access token';
+      bugsnagEvent.addMetadata('Token', token);
+    });
     return {
       ...token,
       error: 'RefreshAccessTokenError',
@@ -72,13 +80,7 @@ export const authOptions: NextAuthOptions = {
         return token;
       }
 
-      if (
-        Date.now() < token.accessTokenExpired &&
-        // Temporal fix to clean broken sessions from the access token expiration bug.
-        // There is a task already scheduled to clean this.
-        token.accessTokenExpired < 3_000_000_000_000
-      )
-        return token;
+      if (Date.now() < token.accessTokenExpired) return token;
 
       return refreshAccessToken(token);
     },
@@ -87,6 +89,14 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         newSession.accessToken = token.accessToken;
         newSession.error = token.error;
+        if (token.error) {
+          Bugsnag.notify(new Error('login error'), (event) => {
+            event.context = 'auth';
+            event.addMetadata('Session', session);
+            event.addMetadata('Token', token);
+            event.addMetadata('Token Error', { error: token.error });
+          });
+        }
       }
       return newSession;
     },

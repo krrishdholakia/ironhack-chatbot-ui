@@ -19,7 +19,7 @@ const handler = async (
 
   const { prompt } = req.body;
 
-  return fetch(
+  fetch(
     'https://n8n-ih.herokuapp.com/webhook/a5fa6da2-5717-4b35-9fe1-4734620b8eb9',
     {
       method: 'POST',
@@ -34,6 +34,10 @@ const handler = async (
       }),
     },
   );
+
+  return new Response('Ok', {
+    status: 200,
+  });
 };
 
 export default handler;
