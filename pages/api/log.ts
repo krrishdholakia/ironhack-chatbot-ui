@@ -1,23 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import type { NextAuthOptions } from 'next-auth';
-import { getServerSession } from 'next-auth/next';
 
-import { authOptions } from './auth/[...nextauth]';
+import verifyToken from '../../lib/auth';
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse,
-): Promise<Response> => {
-  const session = await getServerSession(req, res, authOptions);
-
-  if (!session) {
-    return new Response('Error', {
-      status: 401,
-      statusText: 'You must be logged in.',
-    });
-  }
-
+): Promise<void> => {
   const { prompt } = req.body;
+  let session;
+  try {
+    const authorization = req?.headers?.authorization?.split(' ')[1];
+    session = await verifyToken(authorization);
+  } catch (error) {
+    return res.status(401).send({ error: 'You must be logged in.' });
+  }
 
   fetch(
     'https://n8n-ih.herokuapp.com/webhook/a5fa6da2-5717-4b35-9fe1-4734620b8eb9',
@@ -28,16 +24,14 @@ const handler = async (
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        user_name: session.user.name,
-        user_email: session.user.email,
+        user_name: session.name,
+        user_email: session.email,
         prompt,
       }),
     },
   );
 
-  return new Response('Ok', {
-    status: 200,
-  });
+  res.status(200).send('OK');
 };
 
 export default handler;

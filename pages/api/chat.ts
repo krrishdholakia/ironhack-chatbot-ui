@@ -3,6 +3,7 @@ import { OpenAIError, OpenAIStream } from '@/utils/server';
 
 import { ChatBody, Message } from '@/types/chat';
 
+import verifyToken from '../../lib/auth';
 // @ts-expect-error
 import wasm from '../../node_modules/@dqbd/tiktoken/lite/tiktoken_bg.wasm?module';
 
@@ -15,7 +16,17 @@ export const config = {
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    const { model, messages, key, prompt, temperature } = (await req.json()) as ChatBody;
+    const { model, messages, key, prompt, temperature } =
+      (await req.json()) as ChatBody;
+    try {
+      const authorization = req?.headers?.get('authorization')?.split(' ')[1];
+      const session = await verifyToken(authorization);
+    } catch (error) {
+      return new Response('Error', {
+        status: 401,
+        statusText: 'You must be logged in.',
+      });
+    }
 
     await init((imports) => WebAssembly.instantiate(wasm, imports));
     const encoding = new Tiktoken(
@@ -52,7 +63,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     encoding.free();
 
-    const stream = await OpenAIStream(model, promptToSend, temperatureToUse, key, messagesToSend);
+    const stream = await OpenAIStream(
+      model,
+      promptToSend,
+      temperatureToUse,
+      key,
+      messagesToSend,
+    );
 
     return new Response(stream);
   } catch (error) {

@@ -25,6 +25,7 @@ import { Plugin } from '@/types/plugin';
 
 import HomeContext from '@/pages/api/home/home.context';
 
+import { AuthContext } from '../Auth';
 import Spinner from '../Spinner';
 import { ChatInput } from './ChatInput';
 import { ChatLoader } from './ChatLoader';
@@ -41,6 +42,7 @@ interface Props {
 export const Chat = memo(({ stopConversationRef }: Props) => {
   const { t } = useTranslation('chat');
 
+  const keycloak = useContext(AuthContext);
   const {
     state: {
       selectedConversation,
@@ -117,10 +119,14 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         }
         const controller = new AbortController();
 
+        await keycloak?.updateToken(30);
+        if (!keycloak?.token) return;
+
         fetch('/api/log', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${keycloak?.token}`,
           },
           body: JSON.stringify({
             prompt:
@@ -134,6 +140,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${keycloak?.token}`,
           },
           signal: controller.signal,
           body,
