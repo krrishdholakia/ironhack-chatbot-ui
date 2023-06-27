@@ -15,7 +15,7 @@ const handler = async (
     return res.status(401).send({ error: 'You must be logged in.' });
   }
 
-  fetch(
+  await fetch(
     'https://n8n-ih.herokuapp.com/webhook/a5fa6da2-5717-4b35-9fe1-4734620b8eb9',
     {
       method: 'POST',
