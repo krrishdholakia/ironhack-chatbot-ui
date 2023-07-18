@@ -1,4 +1,5 @@
 import {
+  IconBug,
   IconBulbFilled,
   IconFileExport,
   IconSettings,
@@ -42,6 +43,18 @@ export const ChatbarSettings = () => {
 
   return (
     <div className="flex flex-col items-center space-y-1 border-t border-white/20 pt-1 text-sm">
+      <SidebarButton
+        text={t('Any bugs/feedback? ')}
+        icon={<IconBug size={18} />}
+        onClick={() =>
+          window.open(
+            'https://sprw.io/stt-sPTygAne16aRJc8DvYyoQy',
+            '_blank',
+            'noreferrer',
+          )
+        }
+      />
+
       <SidebarButton
         text={t('Getting Started')}
         icon={<IconBulbFilled size={18} />}
