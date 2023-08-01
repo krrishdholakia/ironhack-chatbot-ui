@@ -35,6 +35,8 @@ import { ModelSelect } from './ModelSelect';
 import { SystemPrompt } from './SystemPrompt';
 import { TemperatureSlider } from './Temperature';
 
+import { useCohortName } from '@/hooks';
+
 interface Props {
   stopConversationRef: MutableRefObject<boolean>;
 }
@@ -59,7 +61,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     handleUpdateConversation,
     dispatch: homeDispatch,
   } = useContext(HomeContext);
-
+  const cohortName = useCohortName();
   const [currentMessage, setCurrentMessage] = useState<Message>();
   const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true);
   const [showSettings, setShowSettings] = useState<boolean>(false);
@@ -129,6 +131,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             Authorization: `Bearer ${keycloak?.token}`,
           },
           body: JSON.stringify({
+            cohort_name: cohortName,
             prompt:
               updatedConversation.messages[
                 updatedConversation.messages.length - 1
@@ -268,6 +271,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     },
     [
       apiKey,
+      cohortName,
       conversations,
       pluginKeys,
       selectedConversation,

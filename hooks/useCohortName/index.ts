@@ -1,0 +1,1 @@
+export { useCohortName } from './useCohortName';

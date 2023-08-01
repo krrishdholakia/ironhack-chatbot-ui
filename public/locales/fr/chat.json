@@ -23,6 +23,6 @@
   "click if using a .env.local file": "click if using a .env.local file",
   "Message limit is {{maxLength}} characters. You have entered {{valueLength}} characters.": "La limite de message est de {{maxLength}} caractères. Vous avez saisi {{valueLength}} caractères.",
   "Please enter a message": "Veuillez entrer un message",
-  "Ironhack ChatBot is an advanced chatbot kit for OpenAI chat models seeking to help Ironhack students in their learning. If you have any questions, please contact your LT/PM.": "Chatbot UI est un kit de chatbot avancé pour les modèles de chat d'OpenAI visant à imiter l'interface et les fonctionnalités de ChatGPT.",
+  "You are testing an early version of the Ironhack ChatBot (powered by ChatGPT). Remember that it may seems like I have all the answers but I'm just the tool in your hands and could give you incorrect answer if you ask me to. If you have any doubt, answer your LT/PM.": "Chatbot UI est un kit de chatbot avancé pour les modèles de chat d'OpenAI visant à imiter l'interface et les fonctionnalités de ChatGPT.",
   "Are you sure you want to clear all messages?": "Êtes-vous sûr de vouloir effacer tous les messages ?"
 }

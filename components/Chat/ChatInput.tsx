@@ -381,7 +381,7 @@ export const ChatInput = ({
       </div>
       <div className="px-3 pt-2 pb-3 text-center text-[12px] text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
         {t(
-          'Ironhack ChatBot is an advanced chatbot kit for OpenAI chat models seeking to help Ironhack students in their learning. If you have any questions, please contact your LT/PM.',
+          "You are testing an early version of the Ironhack ChatBot (powered by ChatGPT). Remember that it may seems like I have all the answers but I'm just the tool in your hands and could give you incorrect answer if you ask me to. If you have any doubt, answer your LT/PM.",
         )}
       </div>
     </div>

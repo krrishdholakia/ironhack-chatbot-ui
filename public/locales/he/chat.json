@@ -23,6 +23,6 @@
   "click if using a .env.local file": "click if using a .env.local file",
   "Message limit is {{maxLength}} characters. You have entered {{valueLength}} characters.": "מגבלת תווים היא {{maxLength}}. אתה הקלדת עד עכשיו {{valueLength}} תווים.",
   "Please enter a message": "הקלד את הודעתך",
-  "Ironhack ChatBot is an advanced chatbot kit for OpenAI chat models seeking to help Ironhack students in their learning. If you have any questions, please contact your LT/PM.": "מערכת הצאטבוט היא ערכה מתקדמת לניהול שיחה המכוונת לחקות את המראה והפונקציונאלית של ChatGPT",
+  "You are testing an early version of the Ironhack ChatBot (powered by ChatGPT). Remember that it may seems like I have all the answers but I'm just the tool in your hands and could give you incorrect answer if you ask me to. If you have any doubt, answer your LT/PM.": "מערכת הצאטבוט היא ערכה מתקדמת לניהול שיחה המכוונת לחקות את המראה והפונקציונאלית של ChatGPT",
   "Are you sure you want to clear all messages?": "האם אתה בטוח שברצונך למחוק את כל ההודעות?"
 }
