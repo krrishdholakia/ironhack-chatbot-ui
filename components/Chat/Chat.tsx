@@ -35,7 +35,7 @@ import { ModelSelect } from './ModelSelect';
 import { SystemPrompt } from './SystemPrompt';
 import { TemperatureSlider } from './Temperature';
 
-import { useCohortName } from '@/hooks';
+import { useCohortData } from '@/hooks';
 
 interface Props {
   stopConversationRef: MutableRefObject<boolean>;
@@ -61,7 +61,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     handleUpdateConversation,
     dispatch: homeDispatch,
   } = useContext(HomeContext);
-  const cohortName = useCohortName();
+  const { name: cohortName, week: cohortWeek } = useCohortData();
   const [currentMessage, setCurrentMessage] = useState<Message>();
   const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true);
   const [showSettings, setShowSettings] = useState<boolean>(false);
@@ -132,6 +132,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           },
           body: JSON.stringify({
             cohort_name: cohortName,
+            cohort_week: cohortWeek,
             prompt:
               updatedConversation.messages[
                 updatedConversation.messages.length - 1

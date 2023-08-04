@@ -6,7 +6,7 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> => {
-  const { prompt, cohort_name } = req.body;
+  const { prompt, cohort_name, cohort_week } = req.body;
   let session;
   try {
     const authorization = req?.headers?.authorization?.split(' ')[1];
@@ -28,6 +28,7 @@ const handler = async (
         user_email: session.email,
         prompt,
         cohort_name,
+        cohort_week,
       }),
     },
   );
