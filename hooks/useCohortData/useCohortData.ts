@@ -7,6 +7,7 @@ import * as R from 'ramda';
 type CohortData = {
   name: string;
   week: number;
+  track: Cohort['track'];
 };
 
 function buildCohortName(cohort: Cohort) {
@@ -29,8 +30,12 @@ export const useCohortData = function (): CohortData {
   const cohort = R.head(cohorts || []);
 
   if (!cohort) {
-    return { name: '', week: 0 };
+    return { name: '', week: 0, track: undefined };
   }
 
-  return { name: buildCohortName(cohort), week: getCohortWeek(cohort) };
+  return {
+    name: buildCohortName(cohort),
+    week: getCohortWeek(cohort),
+    track: cohort.track,
+  };
 };

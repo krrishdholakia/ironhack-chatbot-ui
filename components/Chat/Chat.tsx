@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
 
 import { getEndpoint } from '@/utils/app/api';
+import { PROMPTS_BY_TRACK } from '@/utils/app/const';
 import {
   saveConversation,
   saveConversations,
@@ -61,7 +62,11 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
     handleUpdateConversation,
     dispatch: homeDispatch,
   } = useContext(HomeContext);
-  const { name: cohortName, week: cohortWeek } = useCohortData();
+  const {
+    name: cohortName,
+    week: cohortWeek,
+    track: cohortTrack,
+  } = useCohortData();
   const [currentMessage, setCurrentMessage] = useState<Message>();
   const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true);
   const [showSettings, setShowSettings] = useState<boolean>(false);
@@ -72,6 +77,14 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  useEffect(() => {
+    if (selectedConversation && cohortTrack) {
+      handleUpdateConversation(selectedConversation, {
+        key: 'prompt',
+        value: PROMPTS_BY_TRACK[cohortTrack],
+      });
+    }
+  }, [cohortTrack]);
   const handleSend = useCallback(
     async (message: Message, deleteCount = 0, plugin: Plugin | null = null) => {
       if (selectedConversation) {
