@@ -5,6 +5,7 @@ import moment from 'moment';
 import * as R from 'ramda';
 
 type CohortData = {
+  id: string | undefined;
   name: string;
   week: number;
   track: Cohort['track'];
@@ -30,12 +31,13 @@ export const useCohortData = function (): CohortData {
   const cohort = R.head(cohorts || []);
 
   if (!cohort) {
-    return { name: '', week: 0, track: undefined };
+    return { name: '', week: 0, track: undefined, id: undefined };
   }
 
   return {
+    id: cohort.id,
     name: buildCohortName(cohort),
-    week: getCohortWeek(cohort),
     track: cohort.track,
+    week: getCohortWeek(cohort),
   };
 };

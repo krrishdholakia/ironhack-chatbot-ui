@@ -1,0 +1,1 @@
+export { InputQuestion } from './InputQuestion';
