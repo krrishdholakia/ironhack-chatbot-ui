@@ -29,6 +29,7 @@ export const InputQuestion = ({
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
           type="text"
+          // @ts-ignore
           {...register(questionText)}
           _focus={{
             borderBox: 'none',

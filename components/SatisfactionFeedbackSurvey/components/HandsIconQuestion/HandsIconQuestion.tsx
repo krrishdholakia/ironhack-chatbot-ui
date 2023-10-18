@@ -38,6 +38,7 @@ export const HandsIconQuestion = ({
           <Box key={index}>
             <Radio
               value={option.value}
+              // @ts-ignore
               {...register(questionText)}
               display="none"
             />

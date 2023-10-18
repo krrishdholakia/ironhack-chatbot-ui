@@ -36,12 +36,7 @@ export const ChatMessage: FC<Props> = memo(
     const { t } = useTranslation('chat');
 
     const {
-      state: {
-        selectedConversation,
-        conversations,
-        currentMessage,
-        messageIsStreaming,
-      },
+      state: { selectedConversation, conversations, messageIsStreaming },
       dispatch: homeDispatch,
     } = useContext(HomeContext);
 
@@ -49,7 +44,6 @@ export const ChatMessage: FC<Props> = memo(
     const [isTyping, setIsTyping] = useState<boolean>(false);
 
     const [messageContent, setMessageContent] = useState(message.content);
-    const [userQuestion, setUserQuestion] = useState();
     const [messagedCopied, setMessageCopied] = useState(false);
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -189,7 +183,6 @@ export const ChatMessage: FC<Props> = memo(
                         className="h-[40px] rounded-md border border-neutral-300 px-4 py-1 text-sm font-medium text-neutral-700 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
                         onClick={() => {
                           setMessageContent(message.content);
-                          setUserQuestion(message.content);
                           setIsEditing(false);
                         }}
                       >

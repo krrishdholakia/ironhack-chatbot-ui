@@ -2,12 +2,11 @@ import { Flex } from '@chakra-ui/react';
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FinalMessage } from './components/FinalMessage';
-import { HandsIconQuestion } from './components/HandsIconQuestion';
-import { InputQuestion } from './components/InputQuestion';
+import './components/FinalMessage';
 
 import { useCohortData, useStudents } from '../../hooks';
 import { AuthContext } from '../Auth';
+import { FinalMessage, HandsIconQuestion, InputQuestion } from './components';
 import { satisfactionSurveyData } from './satisfactionSurveyData';
 
 import type { Student } from '@ironhack/types';
@@ -33,6 +32,7 @@ export const SatisfactionFeedbackSurvey = (
   const keycloak = useContext(AuthContext);
 
   const { customParams, surveyType } = props;
+  // @ts-ignore
   const { questions, finalMessage } = satisfactionSurveyData[surveyType] as {
     questions: Question[];
     finalMessage: string;
@@ -78,7 +78,8 @@ export const SatisfactionFeedbackSurvey = (
       step === questions.length &&
       !surveySubmitted &&
       cohortId &&
-      studentId
+      studentId &&
+      keycloak
     ) {
       const submitSatisfactionFeedbackSurvey = async () => {
         const requestOptions = {
@@ -112,7 +113,7 @@ export const SatisfactionFeedbackSurvey = (
     cohortId,
     customParams,
     formData,
-    keycloak.token,
+    keycloak,
     questions.length,
     step,
     studentId,
