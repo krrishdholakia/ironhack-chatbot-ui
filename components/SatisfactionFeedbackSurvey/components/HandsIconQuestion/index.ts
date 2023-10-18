@@ -1,0 +1,1 @@
+export { HandsIconQuestion } from './HandsIconQuestion';
