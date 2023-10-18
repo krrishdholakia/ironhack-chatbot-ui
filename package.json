@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "test": "jest --coverage components/SatisfactionFeedbackSurvey/SatisfactionFeedbackSurvey.spec.tsx",
-    "coverage": "vitest run --coverage"
+    "unit": "jest --passWithNoTests --coverage"
   },
   "dependencies": {
     "@bugsnag/js": "^7.20.2",

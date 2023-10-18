@@ -32,13 +32,11 @@ export const InputQuestion = ({
           // @ts-ignore
           {...register(questionText)}
           _focus={{
-            borderBox: 'none',
             borderColor: 'transparent',
             boxShadow: 'none',
             outline: 'none',
           }}
           _hover={{
-            borderBox: 'none',
             borderColor: 'transparent',
             boxShadow: 'none',
             outline: 'none',
@@ -46,10 +44,10 @@ export const InputQuestion = ({
           bg="transparent"
           borderBottom="0.5px solid"
           borderBottomColor="white"
-          borderBox="none"
           borderColor="transparent"
           borderRadius="none"
           bottom="26px"
+          boxShadow="none"
           fontSize="15px"
           placeholder="This is optional"
           position="relative"

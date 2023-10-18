@@ -1,12 +1,19 @@
 import { Flex } from '@chakra-ui/react';
-import React, { ReactElement, useContext, useEffect, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useForm } from 'react-hook-form';
 
-import './components/FinalMessage';
+import { FinalMessage } from './components/FinalMessage';
+import { HandsIconQuestion } from './components/HandsIconQuestion';
+import { InputQuestion } from './components/InputQuestion';
 
 import { useCohortData, useStudents } from '../../hooks';
 import { AuthContext } from '../Auth';
-import { FinalMessage, HandsIconQuestion, InputQuestion } from './components';
 import { satisfactionSurveyData } from './satisfactionSurveyData';
 
 import type { Student } from '@ironhack/types';
@@ -73,52 +80,53 @@ export const SatisfactionFeedbackSurvey = (
     reset();
   };
 
+  const submitSatisfactionFeedbackSurvey = useCallback(async () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${keycloak?.token as string}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...(customParams && { custom_params: customParams }),
+        cohort_id: cohortId,
+        responses: formData,
+        survey_type: surveyType,
+      }),
+    };
+
+    try {
+      const response = await fetch(
+        `/api/students/${studentId}/surveys/satisfaction-survey`,
+        requestOptions,
+      );
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      return new Response('Error', { status: 500 });
+    }
+  }, [
+    keycloak?.token,
+    customParams,
+    cohortId,
+    formData,
+    surveyType,
+    studentId,
+  ]);
+
   useEffect(() => {
-    if (
-      step === questions.length &&
-      !surveySubmitted &&
-      cohortId &&
-      studentId &&
-      keycloak
-    ) {
-      const submitSatisfactionFeedbackSurvey = async () => {
-        const requestOptions = {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${keycloak.token as string}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            ...(customParams && { custom_params: customParams }),
-            cohort_id: cohortId,
-            responses: formData,
-            survey_type: surveyType,
-          }),
-        };
-
-        const response = await fetch(
-          `/api/students/${studentId}/surveys/satisfaction-survey`,
-          requestOptions,
-        );
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-      };
+    if (!surveySubmitted && step === questions.length) {
       setSurveySubmitted(true);
       submitSatisfactionFeedbackSurvey();
     }
   }, [
-    cohortId,
-    customParams,
-    formData,
-    keycloak,
     questions.length,
     step,
-    studentId,
+    submitSatisfactionFeedbackSurvey,
     surveySubmitted,
-    surveyType,
   ]);
 
   const renderQuestion = (question: Question): ReactElement => {
